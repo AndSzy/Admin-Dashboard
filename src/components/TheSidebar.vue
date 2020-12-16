@@ -4,23 +4,46 @@
       <b-icon icon="three-dots"></b-icon>
        </b-btn> -->
 
-    <b-sidebar text-variant="white" id="sidebar-1" no-header v-model="isSidebarOpen">
+    <b-sidebar
+      text-variant="white"
+      id="sidebar-1"
+      no-header
+      v-model="isSidebarOpen"
+    >
       <slot></slot>
       <div class="mx-1 my-5">
-        <b-nav vertical>
-          <b-nav-text @click="openChild">
-            Active
+        <h3 class="mx-3 pb-3 border-bottom border-light">
+          <b-icon icon="pentagon"></b-icon>
+          Admin
+        </h3>
+        <b-nav vertical class="px-3">
+          <b-nav-text @click="openChild('dashboard')">
+            <b-icon icon="clipboard-data"></b-icon>
+            Dashboard
             <b-icon icon="chevron-left" class="float-right"></b-icon>
-
-
-            </b-nav-text>
-          <b-nav vertical :class="{notVisible: !open}" id="child">
-            <b-nav-text>aaaa</b-nav-text>
-          <b-nav-text>aaaa Link</b-nav-text>
+          </b-nav-text>
+          <b-nav vertical :class="{ visible: dashboardOpen }" id="child">
+            <b-nav-text>Home</b-nav-text>
+            <b-nav-text>Secondary</b-nav-text>
           </b-nav>
-          <b-nav-text>Link</b-nav-text>
-          <b-nav-text>Another Link</b-nav-text>
-          <b-nav-text disabled>Disabled</b-nav-text>
+          <b-nav-text>
+            <b-icon icon="pen"></b-icon>
+            Create</b-nav-text
+          >
+          <b-nav-text @click="openChild('chart')">
+            <b-icon icon="bar-chart-fill"></b-icon>
+
+            Chart
+            <b-icon icon="chevron-left" class="float-right"></b-icon>
+          </b-nav-text>
+          <b-nav vertical :class="{ visible: chartOpen }" id="child">
+            <b-nav-text>Data</b-nav-text>
+            <b-nav-text>Color</b-nav-text>
+          </b-nav>
+          <b-nav-text disabled>
+            <b-icon icon="table"></b-icon>
+            Table</b-nav-text
+          >
         </b-nav>
       </div>
     </b-sidebar>
@@ -32,14 +55,20 @@ export default {
   props: ["isSidebarOpen"],
   data() {
     return {
-      open: false,
-    }
+      dashboardOpen: false,
+      chartOpen: false
+    };
   },
   methods: {
-    openChild() {
-      this.open = !this.open
-    }
-  }
+    openChild(target) {
+      if(target === 'dashboard') {
+        this.dashboardOpen = !this.dashboardOpen;
+      } else if (target === 'chart') {
+        this.chartOpen = !this.chartOpen;
+      }
+      
+    },
+  },
 };
 </script>
 
@@ -50,14 +79,13 @@ export default {
 
 .navbar-text {
   background-color: #343a40;
-  padding: .5rem 1rem;
-  border-radius: .25rem;
-  margin-bottom: .2rem;
-
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
 .navbar-text:hover {
-  background-color: #484D53;
+  background-color: #484d53;
   cursor: pointer;
 }
 
@@ -65,7 +93,16 @@ export default {
   background-color: #343a40;
 }
 
-#child.notVisible {
-  display: none;
+#child {
+  height: 0;
+  overflow: hidden;
+
+  
+}
+
+#child.visible {
+  transition: opacity 1s ease-out;
+  height: auto;
+  transition: all 0.5s;
 }
 </style>
