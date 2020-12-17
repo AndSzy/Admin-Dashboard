@@ -1,34 +1,34 @@
 <template>
   <div class="home">
-    <the-navbar :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }">
+    <the-navbar class="sticky-top" :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }">
       <a class="btn" @click="toggleSidebar">
         <b-icon icon="three-dots"></b-icon>
       </a>
     </the-navbar>
     <the-sidebar :isSidebarOpen="isSidebarOpen">
-      <a
-        @click="toggleSidebar"
-        class="float-right mx-1 btn text-white"
-      >
-        X
-      </a>
+      <a @click="toggleSidebar" class="float-right mx-1 btn text-white"> X </a>
     </the-sidebar>
     <div
       class="full"
       :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }"
     >
       <h1>Hello</h1>
+
       <div class="row">
         <my-component
-        class="col-12 col-sm-6 col-lg-4"
+          class="col-12 col-sm-6 col-lg-4"
           v-for="chart in charts"
           :key="chart.id"
           :chart="chart"
           :openModalAction="openComponentModal"
           :closeComponentAction="closeMyComponent"
-      ></my-component>
+        ></my-component>
+
       </div>
-    
+      
+      
+
+
     </div>
   </div>
 </template>
@@ -38,24 +38,42 @@ import MyComponent from '../components/MyComponent.vue';
 import TheNavbar from "../components/TheNavbar.vue";
 import TheSidebar from "../components/TheSidebar.vue";
 
+
+
 import { dataset1, dataset2 } from "../components/fake/FakeData.js";
 
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "Home",
   components: {
     TheNavbar,
     TheSidebar,
-    MyComponent,
+    MyComponent
   },
-   mounted() {
-    this.newComponent({color: "red", chartType: "Line", datasetName: "data2"});
-    this.newComponent({color: "green", chartType: "Bar", datasetName: "data2"});
-    this.newComponent({color: "blue", chartType: "Bar", datasetName: "data1"});
-    this.newComponent({color: "green", chartType: "Line", datasetName: "data1"});
+  mounted() {
+    this.newComponent({
+      color: "red",
+      chartType: "Line",
+      datasetName: "data2",
+    });
+    this.newComponent({
+      color: "green",
+      chartType: "Bar",
+      datasetName: "data2",
+    });
+    this.newComponent({
+      color: "blue",
+      chartType: "Bar",
+      datasetName: "data1",
+    });
+    this.newComponent({
+      color: "green",
+      chartType: "Line",
+      datasetName: "data1",
+    });
 
-    // console.log("mounted");
+    // console.log(this.charts[0]);
   },
   data() {
     return {
@@ -129,11 +147,11 @@ export default {
 
 .noActive {
   margin-left: 0;
-  transition: all 0.3s;
+  transition: margin-left 0.3s;
 }
 
 .active {
   margin-left: 320px;
-  transition: all 0.3s;
+  transition: margin-left 0.3s;
 }
 </style>
