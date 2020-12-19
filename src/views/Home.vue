@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <the-navbar class="sticky-top" :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }">
+    <the-navbar
+      class="sticky-top"
+      :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }"
+    >
       <a class="btn" @click="toggleSidebar">
         <b-icon icon="three-dots"></b-icon>
       </a>
@@ -12,33 +15,51 @@
       class="full"
       :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }"
     >
-      <h1>Hello</h1>
+      
+      <!-- <div class="btn btn-secondary" @click="createDashboard">DASHBOARD</div> -->
 
-      <div class="row">
-        <my-component
-          class="col-12 col-sm-6 col-lg-4"
-          v-for="chart in charts"
-          :key="chart.id"
-          :chart="chart"
+      <grid-layout
+        :layout.sync="layout"
+        :col-num="3"
+        :row-height="150"
+        :is-draggable="true"
+        :is-resizable="true"
+        :is-mirrored="false"
+        :vertical-compact="true"
+        :margin="[10, 10]"
+        :use-css-transforms="true"
+        
+      >
+        <grid-item
+          v-for="item in layout"
+          :x="item.x"
+          :y="item.y"
+          :w="item.w"
+          :h="item.h"
+          :i="item.i"
+          :key="item.i"
+        >
+
+          <!-- <component :is="item.is" :chart="item.d"></component> -->
+
+          <my-component 
+          :chart="item.d"
           :openModalAction="openComponentModal"
           :closeComponentAction="closeMyComponent"
-        ></my-component>
+          ></my-component>
 
-      </div>
-      
-      
-
-
+         
+        </grid-item>
+      </grid-layout>
     </div>
   </div>
 </template>
 
 <script>
-import MyComponent from '../components/MyComponent.vue';
+import MyComponent from "../components/MyComponent.vue";
 import TheNavbar from "../components/TheNavbar.vue";
 import TheSidebar from "../components/TheSidebar.vue";
-
-
+import VueGridLayout from "vue-grid-layout";
 
 import { dataset1, dataset2 } from "../components/fake/FakeData.js";
 
@@ -49,7 +70,9 @@ export default {
   components: {
     TheNavbar,
     TheSidebar,
-    MyComponent
+    MyComponent,
+    GridLayout: VueGridLayout.GridLayout,
+    GridItem: VueGridLayout.GridItem,
   },
   mounted() {
     this.newComponent({
@@ -73,7 +96,9 @@ export default {
       datasetName: "data1",
     });
 
-    // console.log(this.charts[0]);
+// Create dashboard on load
+    this.createDashboard();
+
   },
   data() {
     return {
@@ -81,10 +106,28 @@ export default {
       dataset1,
       dataset2,
       charts: [],
+      // Add dynamic calculation of height
+      layout: [],
     };
   },
   methods: {
-    toggleSidebar() {
+    createDashboard() {
+      this.layout = [];
+      this.layout.push(
+        {x: 0,
+        y: 0,
+        w: 1,
+        h: 4,
+        minH: 4,
+        i: "0",
+        is: "MyComponent",
+        d: this.charts[0],
+      },
+      { x: 1, y: 0, w: 1, h: 4, i: "1", is: "MyComponent", d: this.charts[1] },
+        { x: 2, y: 0, w: 1, h: 4, i: "2", is: "MyComponent", d: this.charts[2]  },
+        { x: 0, y: 1, w: 1, h: 4, i: "3", is: "MyComponent", d: this.charts[3] },);
+    },
+       toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
     openComponentModal(editedChart) {
@@ -126,6 +169,7 @@ export default {
       });
     },
     closeMyComponent(closingChart) {
+      alert("closing - change layout array !!")
       this.charts.forEach((chart) => {
         if (chart.id === closingChart.id) {
           const index = this.charts.indexOf(chart);
@@ -153,5 +197,13 @@ export default {
 .active {
   margin-left: 320px;
   transition: margin-left 0.3s;
+}
+
+.vue-grid-layout {
+  
+}
+
+.vue-grid-item {
+  overflow: hidden;
 }
 </style>

@@ -5,10 +5,13 @@
         <button class="btn btn-primary" @click="openModal">Edit</button>
         <button class="btn float-right" @click="closeComponent">X</button>
       </div>
-<!-- 
-    <zing-chart-2 :chart="chart"></zing-chart-2> -->
 
-    <zing-chart :chart="chart"></zing-chart>
+      <div class="zing-wrapper">
+
+        <zing-chart :chart="chart"></zing-chart>
+      </div>
+
+    
     
     </div>
   </div>
@@ -17,13 +20,11 @@
 <script>
 
 import ZingChart from "../components/charts/ZingChart";
-// import ZingChart2 from "../components/charts/ZingChart2.vue";
 
 
 export default {
   components: {
     ZingChart,
-    // ZingChart2
   },
   props: {
     chart: Object,
@@ -45,6 +46,7 @@ export default {
       this.openModalAction(this.chart);
     },
     closeComponent() {
+      
       this.closeComponentAction(this.chart);
     }
   },

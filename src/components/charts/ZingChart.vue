@@ -10,7 +10,7 @@ export default {
       chartData: {
         type: "line",
         plot: {
-          "line-color": "#8FBE00",
+          "line-color": this.chart.color,
           exact: false,
           samplingStep: 1,
           maxTrackers: 15, 
@@ -28,4 +28,5 @@ export default {
 </script>
 
 <style>
+
 </style>
