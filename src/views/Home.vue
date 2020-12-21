@@ -60,6 +60,7 @@
 </template>
 
 <script>
+// TEST
 import MyComponent from "../components/MyComponent.vue";
 import TheNavbar from "../components/TheNavbar.vue";
 import TheSidebar from "../components/TheSidebar.vue";
