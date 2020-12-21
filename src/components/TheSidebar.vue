@@ -22,9 +22,9 @@
             Dashboard
             <b-icon icon="chevron-left" class="float-right"></b-icon>
           </b-nav-text>
-          <b-nav vertical :class="{ visible: dashboardOpen }" id="child">
-            <b-nav-text>Home</b-nav-text>
-            <b-nav-text>Secondary</b-nav-text>
+          <b-nav vertical :class="{ visible: dashboardOpen }" id="childDash">
+            <b-nav-text id="home">Home</b-nav-text>
+            <b-nav-text id="secondary">Secondary</b-nav-text>
           </b-nav>
           <b-nav-text>
             <b-icon icon="pen"></b-icon>
@@ -36,7 +36,7 @@
             Chart
             <b-icon icon="chevron-left" class="float-right"></b-icon>
           </b-nav-text>
-          <b-nav vertical :class="{ visible: chartOpen }" id="child">
+          <b-nav vertical :class="{ visible: chartOpen }" id="childChart">
             <b-nav-text>Data</b-nav-text>
             <b-nav-text>Color</b-nav-text>
           </b-nav>
@@ -55,8 +55,8 @@ export default {
   props: ["isSidebarOpen"],
   data() {
     return {
-      dashboardOpen: false,
-      chartOpen: false
+      dashboardOpen: true,
+      chartOpen: false,
     };
   },
   methods: {
@@ -93,16 +93,30 @@ export default {
   background-color: #343a40;
 }
 
-#child {
+
+#childDash {
   height: 0;
   overflow: hidden;
-
-  
 }
 
-#child.visible {
-  transition: opacity 1s ease-out;
-  height: auto;
-  transition: all 0.5s;
+#childDash.visible {
+  height: inherit;
+  /* transition: all 5s; */
 }
+
+#childChart {
+  height: 0;
+  overflow: hidden;
+}
+
+#childChart.visible {
+  height: inherit;
+  /* transition: all 5s; */
+}
+
+#home {
+  background-color: blue;
+}
+
+
 </style>

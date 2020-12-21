@@ -8,16 +8,20 @@
         <b-icon icon="three-dots"></b-icon>
       </a>
     </the-navbar>
+
+
     <the-sidebar :isSidebarOpen="isSidebarOpen">
       <a @click="toggleSidebar" class="float-right mx-1 btn text-white"> X </a>
     </the-sidebar>
+
+
     <div
       class="full"
       :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }"
     >
-      
-      <!-- <div class="btn btn-secondary" @click="createDashboard">DASHBOARD</div> -->
 
+    <zoom-chart v-if="charts[0]" :chart="charts[0]"></zoom-chart>
+    
       <grid-layout
         :layout.sync="layout"
         :col-num="3"
@@ -40,17 +44,16 @@
           :key="item.i"
         >
 
-          <!-- <component :is="item.is" :chart="item.d"></component> -->
-
           <my-component 
           :chart="item.d"
           :openModalAction="openComponentModal"
           :closeComponentAction="closeMyComponent"
           ></my-component>
 
-         
         </grid-item>
       </grid-layout>
+
+      
     </div>
   </div>
 </template>
@@ -64,6 +67,7 @@ import VueGridLayout from "vue-grid-layout";
 import { dataset1, dataset2 } from "../components/fake/FakeData.js";
 
 import { v4 as uuidv4 } from "uuid";
+import ZoomChart from '../components/charts/ZoomChart.vue';
 
 export default {
   name: "Home",
@@ -73,6 +77,7 @@ export default {
     MyComponent,
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
+    ZoomChart,
   },
   mounted() {
     this.newComponent({
@@ -97,7 +102,11 @@ export default {
     });
 
 // Create dashboard on load
-    this.createDashboard();
+    // this.createDashboard();
+
+    this.createLayoutFromChartsArray();
+
+    console.log(this.charts[0]);
 
   },
   data() {
@@ -111,22 +120,55 @@ export default {
     };
   },
   methods: {
-    createDashboard() {
-      this.layout = [];
-      this.layout.push(
-        {x: 0,
-        y: 0,
-        w: 1,
-        h: 4,
-        minH: 4,
-        i: "0",
-        is: "MyComponent",
-        d: this.charts[0],
-      },
-      { x: 1, y: 0, w: 1, h: 4, i: "1", is: "MyComponent", d: this.charts[1] },
-        { x: 2, y: 0, w: 1, h: 4, i: "2", is: "MyComponent", d: this.charts[2]  },
-        { x: 0, y: 1, w: 1, h: 4, i: "3", is: "MyComponent", d: this.charts[3] },);
+    createLayoutFromChartsArray() {
+      this.layout.length = 0;
+      this.charts.forEach((chart) => {
+        // this.layout.push({
+        //   x: 1, y: 0, w: 1, h: 4, i: chart.id, is: "MyComponent", d: chart
+        // })
+        this.pushChartToLayout(chart)
+      })
     },
+    pushChartToLayout(chart) {
+      let layoutArrayLength = this.layout.length + 1;
+      let horizontal 
+      if (layoutArrayLength%3 == 0) {
+        horizontal =  2
+      } else if (layoutArrayLength%3 == 2) {
+        horizontal =  1
+      } else {
+        horizontal = 0
+      }
+
+      // console.log("layoutArrayLength:");
+      // console.log(layoutArrayLength);
+
+      let obj = {
+        x: horizontal, y: Math.floor((layoutArrayLength-1)/3), w: 1, h: 4, i: chart.id, is: "MyComponent", d: chart
+      }
+
+      this.layout.push(obj)
+
+      // console.log("Horizontal");
+      // console.log(obj.x);
+      // console.log("Y");
+      // console.log(obj.y);
+    },
+    // createDashboard() {
+    //   this.layout = [];
+    //   this.layout.push(
+    //     {x: 0,
+    //     y: 0,
+    //     w: 1,
+    //     h: 4,
+    //     i: "0",
+    //     is: "MyComponent",
+    //     d: this.charts[0],
+    //   },
+    //   { x: 1, y: 0, w: 1, h: 4, i: "1", is: "MyComponent", d: this.charts[1] },
+    //     { x: 2, y: 0, w: 1, h: 4, i: "2", is: "MyComponent", d: this.charts[2]  },
+    //     { x: 0, y: 1, w: 1, h: 4, i: "3", is: "MyComponent", d: this.charts[3] },);
+    // },
        toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
@@ -169,13 +211,21 @@ export default {
       });
     },
     closeMyComponent(closingChart) {
-      alert("closing - change layout array !!")
+    
       this.charts.forEach((chart) => {
         if (chart.id === closingChart.id) {
           const index = this.charts.indexOf(chart);
           this.charts.splice(index, 1);
         }
       });
+
+    this.layout.forEach((layoutItem) => {
+        if (layoutItem.i === closingChart.id) {
+          const index = this.layout.indexOf(layoutItem);
+          this.layout.splice(index, 1);
+        }
+      });
+
     },
   },
 };

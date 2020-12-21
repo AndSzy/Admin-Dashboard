@@ -8,7 +8,7 @@
 
       <div class="zing-wrapper">
 
-        <zing-chart :chart="chart"></zing-chart>
+        <line-chart :chart="chart"></line-chart>
       </div>
 
     
@@ -19,12 +19,12 @@
 
 <script>
 
-import ZingChart from "../components/charts/ZingChart";
+import LineChart from "../components/charts/LineChart";
 
 
 export default {
   components: {
-    ZingChart,
+    LineChart,
   },
   props: {
     chart: Object,
