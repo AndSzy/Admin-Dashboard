@@ -9,6 +9,24 @@ export default {
     return {
       chartData: {
         type: "line",
+          "scale-x": {
+    "zooming":true,
+    "zoom-to":[900,1000],
+    // "item":{
+    //   "font-size":10
+    // }
+  },
+  "scale-y": {
+    "zooming":true,
+    // "zoom-to":[100,200],
+    // "values": "50:350:50",
+    // "guide":{
+    //   "line-style":"dotted"
+    // },
+    "item":{
+      "font-size":2
+    }
+  },
         plot: {
           "line-color": this.chart.color,
           exact: false,

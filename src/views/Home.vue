@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home bg-light">
     <the-navbar
       class="sticky-top"
       :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }"
@@ -42,6 +42,7 @@
           :h="item.h"
           :i="item.i"
           :key="item.i"
+          dragIgnoreFrom='img'
         >
 
           <my-component 
@@ -233,8 +234,7 @@ export default {
 
 <style>
 .full {
-  background-color: brown;
-  height: 2000px;
+  
   /* margin-left: 0px;;
   transition: all 0.3s; */
 }
@@ -253,7 +253,14 @@ export default {
   
 }
 
-.vue-grid-item {
+/* .vue-grid-item {
   overflow: hidden;
-}
+} */
+
+.vue-grid-item {
+    /* height: fit-content!important; */
+    /* transform: none!important; */
+    /* position: relative!important; */
+    /* margin-bottom:10px; */
+  }
 </style>
