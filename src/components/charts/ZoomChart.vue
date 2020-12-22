@@ -1,5 +1,8 @@
 <template>
-  <zingchart :data="chartData" output="canvas"></zingchart>
+  <div>
+    <button @click="fullScreen">FULL</button>
+    <zingchart :data="chartData" output="canvas" ref="chart"></zingchart>
+  </div>
 </template>
 
 <script>
@@ -9,29 +12,52 @@ export default {
     return {
       chartData: {
         type: "line",
-          "scale-x": {
-    "zooming":true,
-    "zoom-to":[900,1000],
-    // "item":{
-    //   "font-size":10
-    // }
-  },
-  "scale-y": {
-    "zooming":true,
-    // "zoom-to":[100,200],
-    // "values": "50:350:50",
-    // "guide":{
-    //   "line-style":"dotted"
-    // },
-    "item":{
-      "font-size":10
-    }
-  },
-        plot: {
-          "line-color": this.chart.color,
+        labels: [
+          {
+            id: "reload_btn",
+            text: "Reload",
+            padding: "5px",
+            backgroundColor: "#fff",
+            borderColor: "#777",
+            borderRadius: "5px",
+            borderWidth: "1px",
+            cursor: "hand",
+            fontColor: "#777",
+            x: "60px",
+            y: "10px",
+          },
+        ],
+        // preview: {},
+        // zoom: {
+        //   backgroundColor: "#ccccff",
+        //   borderWidth: 5,
+        //   borderColor: "#3399ff",
+        //   alpha: 0.3,
+        // },
+        scrollX: {},
+        // scrollY: {},
+        scaleX: {
+          label: { text: "Time" },
+          zooming: true,
+          "zoom-to": [900, 1000],
+          // "item":{
+          //   "font-size":40
+          // }
         },
         scaleY: {
-            label: { text: 'Usage' }
+          label: { text: "Usage" },
+          zooming: true,
+          "zoom-to": [0, 30],
+          // "values": "50:350:50",
+          // "guide":{
+          //   "line-style":"dotted"
+          // },
+          item: {
+            "font-size": 10,
+          },
+        },
+        plot: {
+          "line-color": this.chart.color,
         },
         series: [
           {
@@ -46,9 +72,13 @@ export default {
       },
     };
   },
+  methods: {
+    fullScreen() {
+      this.$refs.chart.fullscreen();
+    },
+  },
 };
 </script>
 
 <style>
-
 </style>
