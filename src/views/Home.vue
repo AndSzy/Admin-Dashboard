@@ -20,8 +20,24 @@
       :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }"
     >
 
-    <zoom-chart v-if="charts[0]" :chart="charts[0]"></zoom-chart>
     
+
+
+    <b-container fluid>
+  <b-row no-gutters>
+    <b-col cols="12" md="6" lg="3"><the-card><ring-chart></ring-chart></the-card></b-col>
+    <b-col cols="12" md="6" lg="3"><the-card><gauge-chart ></gauge-chart></the-card></b-col>
+    <b-col cols="12" md="6" lg="3"><the-card><gauge-chart ></gauge-chart></the-card></b-col>
+    <b-col cols="12" md="6" lg="3"><the-card><gauge-chart ></gauge-chart></the-card></b-col>
+  </b-row>
+</b-container>
+
+    
+
+    <the-card>
+      <zoom-chart v-if="charts[0]" :chart="charts[0]"></zoom-chart>
+    </the-card>
+
       <grid-layout
         :layout.sync="layout"
         :col-num="3"
@@ -70,6 +86,9 @@ import { dataset1, dataset2 } from "../components/fake/FakeData.js";
 
 import { v4 as uuidv4 } from "uuid";
 import ZoomChart from '../components/charts/ZoomChart.vue';
+import GaugeChart from '../components/charts/GaugeChart.vue';
+import TheCard from '../components/TheCard.vue';
+import RingChart from '../components/charts/RingChart.vue'
 
 export default {
   name: "Home",
@@ -80,6 +99,9 @@ export default {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
     ZoomChart,
+    GaugeChart,
+    TheCard,
+    RingChart
   },
   mounted() {
     this.newComponent({
@@ -108,7 +130,7 @@ export default {
 
     this.createLayoutFromChartsArray();
 
-    console.log(this.charts[0]);
+    // console.log(this.charts[0]);
 
   },
   data() {

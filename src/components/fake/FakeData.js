@@ -38,3 +38,10 @@
 
 
   export { dataset1, dataset2 };
+
+
+// chartType: "Line"
+// color: "red"
+// dataset: {categoriesArray: [], dataArray: []}
+// datasetName: "data2"
+// id: "8846b4d1-d682-4070-b8cf-014ce1e0e9ba"
