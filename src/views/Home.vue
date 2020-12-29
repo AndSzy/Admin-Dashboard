@@ -1,27 +1,49 @@
 <template>
   <div class="home bg-light">
-    <the-navbar
+    <!-- <the-navbar
       class="sticky-top"
-      :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }"
+    > -->
+    <!-- /////////////////////////////////// -->
+
+    <!-- <a class="hamburger-btn"
+      @click="toggleSidebar"
+      :class="{ active: isSidebarOpen, noActive: !isSidebarOpen, 'hamburger-active': isSidebarOpen }"
     >
-      <a class="btn" @click="toggleSidebar">
+      <div class="hamburger-box">
+        <div class="hamburger-inner"></div>
+      </div>
+    </a>
+
+ -->
+
+
+      <!-- <a class="btn" 
+      @click="toggleSidebar"
+      :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }"
+      >
         <b-icon icon="three-dots"></b-icon>
-      </a>
-    </the-navbar>
+      </a> -->
 
 
-    <the-sidebar :isSidebarOpen="isSidebarOpen">
+
+      <!-- ///////////////////////////// -->
+    <!-- </the-navbar> -->
+
+    <!-- :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }" -->
+
+    <!-- <the-sidebar-2 :isSidebarOpen="isSidebarOpen">
       <a @click="toggleSidebar" class="float-right mx-1 btn text-white"> X </a>
-    </the-sidebar>
+    </the-sidebar-2> -->
+
+    <!-- <the-sidebar-2 :isSidebarOpen="isSidebarOpen"></the-sidebar-2> -->
 
 
     <div
       class="full"
-      :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }"
+      
     >
 
-    
-
+    <!-- :class="{ active: isSidebarOpen, noActive: !isSidebarOpen }" -->
 
     <b-container fluid>
   <b-row no-gutters>
@@ -76,10 +98,9 @@
 </template>
 
 <script>
-// TEST
 import MyComponent from "../components/MyComponent.vue";
-import TheNavbar from "../components/TheNavbar.vue";
-import TheSidebar from "../components/TheSidebar.vue";
+// import TheNavbar from "../components/TheNavbar.vue";
+// import TheSidebar from "../components/TheSidebar.vue";
 import VueGridLayout from "vue-grid-layout";
 
 import { dataset1, dataset2 } from "../components/fake/FakeData.js";
@@ -89,19 +110,21 @@ import ZoomChart from '../components/charts/ZoomChart.vue';
 import GaugeChart from '../components/charts/GaugeChart.vue';
 import TheCard from '../components/TheCard.vue';
 import RingChart from '../components/charts/RingChart.vue'
+// import TheSidebar2 from '../components/TheSidebar2.vue';
 
 export default {
   name: "Home",
   components: {
-    TheNavbar,
-    TheSidebar,
+    // TheNavbar,
+    // TheSidebar,
     MyComponent,
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
     ZoomChart,
     GaugeChart,
     TheCard,
-    RingChart
+    RingChart,
+    // TheSidebar2
   },
   mounted() {
     this.newComponent({
@@ -135,7 +158,7 @@ export default {
   },
   data() {
     return {
-      isSidebarOpen: true,
+      // isSidebarOpen: true,
       dataset1,
       dataset2,
       charts: [],
@@ -193,9 +216,9 @@ export default {
     //     { x: 2, y: 0, w: 1, h: 4, i: "2", is: "MyComponent", d: this.charts[2]  },
     //     { x: 0, y: 1, w: 1, h: 4, i: "3", is: "MyComponent", d: this.charts[3] },);
     // },
-       toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
-    },
+    //    toggleSidebar() {
+    //   this.isSidebarOpen = !this.isSidebarOpen;
+    // },
     openComponentModal(editedChart) {
       this.$router.push({
         name: "TheModal",
@@ -256,6 +279,71 @@ export default {
 </script>
 
 <style>
+/* Hamburger Button */
+.hamburger-btn {
+  display: block;
+  flex: none;
+  width: 50px;
+  height: 50px;
+  border: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+  z-index: 2;
+}
+
+.hamburger-btn .hamburger-box {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: var(--secondary-color);
+}
+
+.hamburger-btn .hamburger-box .hamburger-inner {
+  height: 3px;
+  background: #fff;
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  top: 25px;
+  transform: translateY(-50%);
+  transition: all 0.4s ease;
+}
+
+.hamburger-btn .hamburger-box .hamburger-inner:before,
+.hamburger-btn .hamburger-box .hamburger-inner:after {
+  content: '';
+  height: 3px;
+  background: #fff;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -10px;
+}
+
+.hamburger-btn .hamburger-box .hamburger-inner:after {
+  top: 10px;
+}
+
+.hamburger-active .hamburger-box .hamburger-inner {
+  transform: rotate(135deg);
+}
+
+.hamburger-active .hamburger-box .hamburger-inner:before,
+.hamburger-active .hamburger-box .hamburger-inner:after {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+.hamburger-active:hover .hamburger-box .hamburger-inner {
+  transform: rotate(225deg);
+}
+
 .full {
   
   /* margin-left: 0px;;

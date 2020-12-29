@@ -1,27 +1,36 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Secondary from '../views/Secondary.vue'
+import TheSidebar2 from '../components/TheSidebar2.vue'
+import TheNavbar from '../components/TheNavbar'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    redirect: '/dashboard/home'
+  },
+  {
+    path: '/dashboard/home',
     name: 'Home',
-    component: Home
+    components: {default: Home, sidebar: TheSidebar2, navbar: TheNavbar},
+  },
+  {
+    path: '/dashboard/secondary',
+    name: 'Secondary',
+    components: {default: Secondary, sidebar: TheSidebar2, navbar: TheNavbar},
   },
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import('../views/About.vue')
   },
   {
     path: '*',
     name: 'NotFound',
-    component: () => import(/* webpackChunkName: "notFound" */ '../views/NotFound.vue')
+    component: () => import('../views/NotFound.vue')
   }
 ]
 

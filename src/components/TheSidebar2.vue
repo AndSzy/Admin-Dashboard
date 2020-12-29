@@ -5,41 +5,53 @@
       id="sidebar-1"
       no-header
       v-model="isSidebarOpen"
+      :no-close-on-route-change= "true"
     >
       <slot></slot>
       <div class="mx-1 my-5">
+        <!-- Admin -->
         <h3 class="mx-3 pb-3 border-bottom border-light">
           <b-icon icon="pentagon"></b-icon>
           Admin
         </h3>
+        <!-- Main Menu -->
         <b-nav vertical class="px-3">
           <b-nav-text @click="openChild('dashboard')">
             <b-icon icon="clipboard-data"></b-icon>
+
             Dashboard
-            <b-icon icon="chevron-left" class="float-right"></b-icon>
+            <b-icon icon="chevron-left" class="float-right" :class="{ pointDown: dashboardsMenuOpened }"></b-icon>
           </b-nav-text>
-          <b-nav vertical :class="{ visible: dashboardOpen }" id="childDash">
-            <b-nav-text id="home">Home</b-nav-text>
-            <b-nav-text id="secondary">Secondary</b-nav-text>
+
+          <b-nav vertical :class="{ visible: dashboardsMenuOpened }" id="childDash">
+            <router-link to="/dashboard/home">
+              Home 
+            </router-link>
+            <router-link to="/dashboard/secondary">
+              Secondary
+            </router-link>
           </b-nav>
+
           <b-nav-text>
             <b-icon icon="pen"></b-icon>
-            Create</b-nav-text
-          >
+            Create
+          </b-nav-text>
+
           <b-nav-text @click="openChild('chart')">
             <b-icon icon="bar-chart-fill"></b-icon>
-
             Chart
-            <b-icon icon="chevron-left" class="float-right"></b-icon>
+            <b-icon icon="chevron-left" class="float-right" :class="{ pointDown: chartsMenuOpened }"></b-icon>
           </b-nav-text>
-          <b-nav vertical :class="{ visible: chartOpen }" id="childChart">
+
+          <b-nav vertical :class="{ visible: chartsMenuOpened }" id="childChart">
             <b-nav-text>Data</b-nav-text>
             <b-nav-text>Color</b-nav-text>
           </b-nav>
-          <b-nav-text disabled>
+
+          <b-nav-text>
             <b-icon icon="table"></b-icon>
-            Table</b-nav-text
-          >
+            Table
+          </b-nav-text>
         </b-nav>
       </div>
     </b-sidebar>
@@ -51,16 +63,16 @@ export default {
   props: ["isSidebarOpen"],
   data() {
     return {
-      dashboardOpen: true,
-      chartOpen: false,
+      dashboardsMenuOpened: true,
+      chartsMenuOpened: false,
     };
   },
   methods: {
     openChild(target) {
       if(target === 'dashboard') {
-        this.dashboardOpen = !this.dashboardOpen;
+        this.dashboardsMenuOpened = !this.dashboardsMenuOpened;
       } else if (target === 'chart') {
-        this.chartOpen = !this.chartOpen;
+        this.chartsMenuOpened = !this.chartsMenuOpened;
       }
       
     },
@@ -73,22 +85,30 @@ export default {
   background-color: #343a40;
 }
 
-.navbar-text {
+.b-sidebar-body li,.b-sidebar-body a {
   background-color: #343a40;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   margin-bottom: 0.2rem;
 }
 
-.navbar-text:hover {
+.b-sidebar-body li:hover,.b-sidebar-body a:hover {
   background-color: #484d53;
   cursor: pointer;
 }
 
-.navbar-text:active {
+.b-sidebar-body li:active,.b-sidebar-body a:active {
   background-color: #343a40;
 }
 
+.b-sidebar-body a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.b-sidebar-body a.router-link-active {
+  background-color: #007bff;
+}
 
 #childDash {
   height: 0;
@@ -97,7 +117,6 @@ export default {
 
 #childDash.visible {
   height: inherit;
-  /* transition: all 5s; */
 }
 
 #childChart {
@@ -107,12 +126,9 @@ export default {
 
 #childChart.visible {
   height: inherit;
-  /* transition: all 5s; */
 }
 
-#home {
-  background-color: blue;
+.pointDown {
+    transform: rotate(-90deg);
 }
-
-
 </style>
