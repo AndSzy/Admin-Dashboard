@@ -11,7 +11,7 @@ export default {
         type: "line",
           "scale-x": {
     "zooming":true,
-    "zoom-to":[900,1000],
+    // "zoom-to":[900,1000],
     // "item":{
     //   "font-size":10
     // }
@@ -36,7 +36,7 @@ export default {
         },
         series: [
           {
-            values: this.chart.dataset.dataArray,
+            values: this.chart.dataset,
           },
         ],
       },

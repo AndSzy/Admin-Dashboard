@@ -32,8 +32,8 @@
   // categories as date stamp
   // data as data
 
-  const dataset1 = generateData(1000);
-  const dataset2 = generateData(1000);
+  const dataset1 = generateData(10000);
+  const dataset2 = generateData(10000);
  
 
 
@@ -45,3 +45,5 @@
 // dataset: {categoriesArray: [], dataArray: []}
 // datasetName: "data2"
 // id: "8846b4d1-d682-4070-b8cf-014ce1e0e9ba"
+
+// {chartType: "Line", color: "orange", dataset: {dataArray: [3,4,6,7,9,2]}, datasetName: "data2", id: "my007"}

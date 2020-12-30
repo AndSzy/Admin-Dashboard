@@ -1,11 +1,12 @@
 <template>
-  <b-card no-body class="text-center m-1">
+  <b-card no-body class="text-center m-1" :class="margin">
     <slot></slot>
   </b-card>
 </template>
 
 <script>
 export default {
+  props: ['margin'],
 
 }
 </script>

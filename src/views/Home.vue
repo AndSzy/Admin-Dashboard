@@ -57,7 +57,7 @@
     
 
     <the-card>
-      <zoom-chart v-if="charts[0]" :chart="charts[0]"></zoom-chart>
+      <zoom-chart v-if="charts[1]" :chart="charts[1]"></zoom-chart>
     </the-card>
 
       <grid-layout
@@ -103,7 +103,7 @@ import MyComponent from "../components/MyComponent.vue";
 // import TheSidebar from "../components/TheSidebar.vue";
 import VueGridLayout from "vue-grid-layout";
 
-import { dataset1, dataset2 } from "../components/fake/FakeData.js";
+import { dataset1, dataset2 } from "../components/mock/MockData.js";
 
 import { v4 as uuidv4 } from "uuid";
 import ZoomChart from '../components/charts/ZoomChart.vue';
@@ -129,22 +129,22 @@ export default {
   mounted() {
     this.newComponent({
       color: "red",
-      chartType: "Line",
+      chartType: "line",
       datasetName: "data2",
     });
     this.newComponent({
       color: "green",
-      chartType: "Bar",
+      chartType: "bar",
       datasetName: "data2",
     });
     this.newComponent({
       color: "blue",
-      chartType: "Bar",
+      chartType: "bar",
       datasetName: "data1",
     });
     this.newComponent({
       color: "green",
-      chartType: "Line",
+      chartType: "line",
       datasetName: "data1",
     });
 
