@@ -5,32 +5,31 @@
       <b-button @click="minimize">Minimize</b-button>
       <b-button @click="zoomIn">Zoom In</b-button>
       <b-button @click="zoomOut">Zoom Out</b-button>
-      <b-button @click="viewAll">View All</b-button>
+      <b-button @click="showPeriod(chart.dataset.length - 1)">View All</b-button>
       <b-button @click="reset">Reset</b-button>
     </div>
     <b-container class="mt-2">
-
       <b-form-row>
+        <b-button @click="showPeriod(1)">1D</b-button>
+        <b-button @click="showPeriod(10)">10D</b-button>
+        <b-button @click="showPeriod(30)">1M</b-button>
+        <b-button @click="showPeriod(90)">3M</b-button>
+        <b-button @click="showPeriod(360)">1Y</b-button>
+        <b-button @click="showCustom(startDate, endDate)">CUSTOM</b-button>
+        <b-form inline>
+          <b-form-datepicker
+            
+            v-model="startDate"
+          ></b-form-datepicker>
 
-      <b-button @click="maximize">1D</b-button>
-      <b-button @click="minimize">10D</b-button>
-      <b-button @click="zoomIn">1M</b-button>
-      <b-button @click="zoomOut">3M</b-button>
-      <b-button @click="viewAll">1Y</b-button>
-      <b-button @click="reset">CUSTOM</b-button>
-      <b-form inline>
-        <b-form-input
-          placeholder="Start Date"
-        ></b-form-input>
-        <b-input-group>
-          <b-form-input
-            placeholder="End Date"
-          ></b-form-input>
-        </b-input-group>
-      </b-form>
+          <b-form-datepicker
+            
+            v-model="endDate"
+          ></b-form-datepicker>
 
+
+        </b-form>
       </b-form-row>
-
     </b-container>
     <zingchart
       class="mb-4"
@@ -47,25 +46,31 @@ export default {
   props: ["chart"],
   data() {
     return {
+      startDate: new Date(this.chart.dataset[0][0][0]),
+      endDate: new Date(this.chart.dataset[this.chart.dataset.length - 1][0][0]),
       chartData: {
         type: this.chart.chartType,
         // preview: {},
-        // zoom: {
-        //   backgroundColor: "#ccccff",
-        //   borderWidth: 5,
-        //   borderColor: "#3399ff",
-        //   alpha: 0.3,
-        // },
+        zoom: {
+          backgroundColor: "#ccccff",
+          borderWidth: 5,
+          borderColor: "#3399ff",
+          alpha: 0.3,
+        },
         scrollX: {},
         scaleX: {
           label: { text: "Time" },
           zooming: true,
+          // "zoom-to":[900,10000],
+   
           itemsOverlap: true,
           maxItems: 11,
           item: {
             angle: -45,
             fontSize: 10,
+            paddingBottom: 25,
           },
+          step: "day",
           transform: {
             type: "date",
             all: "%m/%d/%Y<br>%h:%i:%s:%q %A",
@@ -73,6 +78,7 @@ export default {
         },
         scaleY: {
           label: { text: "Usage" },
+          // zooming: true,
           item: {
             "font-size": 10,
           },
@@ -92,6 +98,30 @@ export default {
     alert() {
       console.log("zoom!");
     },
+    showPeriod(period) {
+      
+      const lastEntry = this.chart.dataset.length - 1;
+
+      this.$refs[this.chart.id].zoomtovalues({ xmin: lastEntry - period, xmax: lastEntry});
+    },
+    showCustom(start, end) {
+      let startPosition = 0;
+      let endPosition = this.chart.dataset.length - 1;
+      let startDateUnix = new Date(start).getTime();
+      let endDateUnix = new Date(end).getTime();
+
+
+      this.chart.dataset.forEach((element, position) => {
+        if(element[0][0] < startDateUnix) {
+          startPosition = position
+        }
+        if(element[0][0] > endDateUnix) {
+          endPosition = position
+        }
+      })
+      this.$refs[this.chart.id].zoomtovalues({ xmin: startPosition, xmax: endPosition});
+    },
+
     maximize() {
       // this.$refs[this.chart.id].fullscreen();
 
@@ -112,12 +142,9 @@ export default {
     zoomOut() {
       this.$refs[this.chart.id].zoomout();
     },
-    viewAll() {
-      // let length = this.chart.dataset.dataArray.length
-      // let max = this.chart.dataset.dataArray[length-1][0]
-      // console.log(this.chart.dataset.dataArray[length-1][0]);
-      this.$refs[this.chart.id].zoomto({ xmin: 0, xmax: 100 });
-    },
+    // viewAll() {
+    //   this.$refs[this.chart.id].zoomto({ ymin: this.oldestDatabaseEntry, ymax: this.newestDatabaseEntry });
+    // },
     reset() {
       this.$refs[this.chart.id].resize({
         width: 600,
