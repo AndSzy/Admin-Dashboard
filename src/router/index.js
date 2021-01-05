@@ -10,7 +10,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/dashboard/home'
+    redirect: '/adminlte/home'
   },
   {
     path: '/dashboard/home',

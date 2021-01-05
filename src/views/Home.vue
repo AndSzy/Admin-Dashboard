@@ -64,10 +64,7 @@
         :layout.sync="layout"
         :col-num="3"
         :row-height="150"
-        :is-draggable="true"
-        :is-resizable="true"
-        :is-mirrored="false"
-        :vertical-compact="true"
+        :auto-size="true"
         :margin="[10, 10]"
         :use-css-transforms="true"
         
