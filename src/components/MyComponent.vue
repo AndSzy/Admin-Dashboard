@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" style=" height: 100%;">
     <div class="card-body">
       <div class="my-1">
         <button class="btn btn-primary" @click="openModal">Edit</button>

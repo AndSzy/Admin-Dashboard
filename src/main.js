@@ -7,6 +7,10 @@ import zingchartVue from 'zingchart-vue';
 
 zingchart.DEV.DEBOUNCESPEED = 50;
 
+// jquery added here:
+window.$ = window.jQuery = require('jquery');
+require('admin-lte');
+
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 
 

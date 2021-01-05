@@ -52,6 +52,10 @@
             <b-icon icon="table"></b-icon>
             Table
           </b-nav-text>
+
+          <router-link to="/adminlte">
+              AdminLTE
+            </router-link>
         </b-nav>
       </div>
     </b-sidebar>
@@ -80,7 +84,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .b-sidebar-body {
   background-color: #343a40;
 }

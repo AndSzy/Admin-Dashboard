@@ -1,35 +1,36 @@
 <template>
   <div>
-    <div class="mt-2">
-      <b-button @click="maximize">Maximize</b-button>
-      <b-button @click="minimize">Minimize</b-button>
-      <b-button @click="zoomIn">Zoom In</b-button>
+    <!-- <div class="mt-2"> -->
+    <!-- <b-button @click="maximize">Maximize</b-button>
+      <b-button @click="minimize">Minimize</b-button> -->
+    <!-- <b-button @click="zoomIn">Zoom In</b-button>
       <b-button @click="zoomOut">Zoom Out</b-button>
-      <b-button @click="showPeriod(chart.dataset.length - 1)">View All</b-button>
-      <b-button @click="reset">Reset</b-button>
-    </div>
+      <b-button @click="showPeriod(chart.dataset.length - 1)">View All</b-button> -->
+    <!-- <b-button @click="reset">Reset</b-button> -->
+    <!-- </div> -->
     <b-container class="mt-2">
-      <b-form-row>
+      <b-row align-h="center">
+        <b-button @click="zoomIn">Zoom In</b-button>
+        <b-button @click="zoomOut">Zoom Out</b-button>
+        <b-button @click="showPeriod(chart.dataset.length - 1)"
+          >View All</b-button
+        >
         <b-button @click="showPeriod(1)">1D</b-button>
         <b-button @click="showPeriod(10)">10D</b-button>
         <b-button @click="showPeriod(30)">1M</b-button>
         <b-button @click="showPeriod(90)">3M</b-button>
         <b-button @click="showPeriod(360)">1Y</b-button>
         <b-button @click="showCustom(startDate, endDate)">CUSTOM</b-button>
+      </b-row>
+      <b-row align-h="center">
         <b-form inline>
-          <b-form-datepicker
-            
-            v-model="startDate"
-          ></b-form-datepicker>
+          <b-form-datepicker v-model="startDate"></b-form-datepicker>
 
-          <b-form-datepicker
-            
-            v-model="endDate"
-          ></b-form-datepicker>
-
-
+          <b-form-datepicker v-model="endDate"></b-form-datepicker>
         </b-form>
-      </b-form-row>
+        <b-button>Back</b-button>
+        <b-button>Forward</b-button>
+      </b-row>
     </b-container>
     <zingchart
       class="mb-4"
@@ -47,7 +48,9 @@ export default {
   data() {
     return {
       startDate: new Date(this.chart.dataset[0][0][0]),
-      endDate: new Date(this.chart.dataset[this.chart.dataset.length - 1][0][0]),
+      endDate: new Date(
+        this.chart.dataset[this.chart.dataset.length - 1][0][0]
+      ),
       chartData: {
         type: this.chart.chartType,
         // preview: {},
@@ -62,7 +65,7 @@ export default {
           label: { text: "Time" },
           zooming: true,
           // "zoom-to":[900,10000],
-   
+
           itemsOverlap: true,
           maxItems: 11,
           item: {
@@ -99,10 +102,12 @@ export default {
       console.log("zoom!");
     },
     showPeriod(period) {
-      
       const lastEntry = this.chart.dataset.length - 1;
 
-      this.$refs[this.chart.id].zoomtovalues({ xmin: lastEntry - period, xmax: lastEntry});
+      this.$refs[this.chart.id].zoomtovalues({
+        xmin: lastEntry - period,
+        xmax: lastEntry,
+      });
     },
     showCustom(start, end) {
       let startPosition = 0;
@@ -110,32 +115,34 @@ export default {
       let startDateUnix = new Date(start).getTime();
       let endDateUnix = new Date(end).getTime();
 
-
       this.chart.dataset.forEach((element, position) => {
-        if(element[0][0] < startDateUnix) {
-          startPosition = position
+        if (element[0][0] < startDateUnix) {
+          startPosition = position;
         }
-        if(element[0][0] > endDateUnix) {
-          endPosition = position
+        if (element[0][0] > endDateUnix) {
+          endPosition = position;
         }
-      })
-      this.$refs[this.chart.id].zoomtovalues({ xmin: startPosition, xmax: endPosition});
-    },
-
-    maximize() {
-      // this.$refs[this.chart.id].fullscreen();
-
-      this.$refs[this.chart.id].resize({
-        width: "auto",
-        height: 800,
+      });
+      this.$refs[this.chart.id].zoomtovalues({
+        xmin: startPosition,
+        xmax: endPosition,
       });
     },
-    minimize() {
-      this.$refs[this.chart.id].resize({
-        width: "100%",
-        height: "100%",
-      });
-    },
+
+    // maximize() {
+    //   // this.$refs[this.chart.id].fullscreen();
+
+    //   this.$refs[this.chart.id].resize({
+    //     width: "auto",
+    //     height: 800,
+    //   });
+    // },
+    // minimize() {
+    //   this.$refs[this.chart.id].resize({
+    //     width: "100%",
+    //     height: "100%",
+    //   });
+    // },
     zoomIn() {
       this.$refs[this.chart.id].zoomin();
     },
@@ -145,13 +152,13 @@ export default {
     // viewAll() {
     //   this.$refs[this.chart.id].zoomto({ ymin: this.oldestDatabaseEntry, ymax: this.newestDatabaseEntry });
     // },
-    reset() {
-      this.$refs[this.chart.id].resize({
-        width: 600,
-        height: 400,
-      });
-      // this.$refs[this.chart.id].reload();
-    },
+    // reset() {
+    //   this.$refs[this.chart.id].resize({
+    //     width: 600,
+    //     height: 400,
+    //   });
+    //   this.$refs[this.chart.id].reload();
+    // },
   },
 };
 </script>

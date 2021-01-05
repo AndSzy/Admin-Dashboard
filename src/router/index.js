@@ -28,6 +28,20 @@ const routes = [
     component: () => import('../views/About.vue')
   },
   {
+    path: '/adminlte',
+    name: 'AdminLTE',
+    component: () => import('../views/AdminLTE.vue'),
+    children: [
+      {path: "home",
+      component: Home
+    },
+    {
+      path: "secondary",
+      component: Secondary
+    }
+    ]
+  },
+  {
     path: '*',
     name: 'NotFound',
     component: () => import('../views/NotFound.vue')
